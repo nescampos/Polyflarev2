@@ -1,0 +1,54 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@section Header {
+    <header>
+		<h2>My transactions</h2>
+	</header>
+	<p>Check your transactions in Polygon Network</p>
+	<ul class="actions">
+		<li><a href="@Url.Action("Index","Wallet")" class="button">See my balance</a></li>
+        <li><a href="@Url.Action("CreateTransaction","Wallet")" class="button">Create transaction</a></li>
+        <li><a href="@Url.Action("Pools","Wallet")" class="button">Check pools</a></li>
+        <li><a onclick="openSequenceWallet()" class="button">Open Sequence Wallet</a></li>
+	</ul>
+}
+
+
+<div class="wrapper">
+	<div class="container" id="main">
+		<div class="row gtr-0">
+            <div class="col-12-narrower">
+                <p class="alert alert-warning" id="noTransactions">Loading transactions</p>
+                <p class="transactionList">
+
+                </p>
+            </div>
+			
+
+		</div>
+						
+	</div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        async function enableWallet() {
+		const wallet = sequence.initWallet('polygon')
+        const connectDetails = await (await wallet).connect()
+        if(!connectDetails.connected) {
+            location.href = "/Home/Login";
+        }
+        getTransactions();
+        
+        }
+        enableWallet();
+    </script>
+}
